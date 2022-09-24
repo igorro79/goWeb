@@ -5,6 +5,10 @@ const Wrapper = styled.div`
   margin-left: auto;
   margin-right: auto;
 
+  @media screen and (max-width: 767px) {
+    border-left: 1px solid #333333;
+    border-right: 1px solid #333333;
+  }
   @media screen and (min-width: 768px) {
     width: 768px;
   }

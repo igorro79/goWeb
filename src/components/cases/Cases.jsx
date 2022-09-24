@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { Container } from "../container/Container";
-import { images, images2x } from "../../assets/cases";
-import image1 from "../../assets/cases/r1.jpg";
+import { pictures } from "../../assets2/cases";
+// import image1 from "../../assets/cases/r1.jpg";
 
 const Section = styled.section`
   width: 100%;
-  background-image: linear-gradient(#28a745, #28a745);
+  background-color: #fff;
   text-align: center;
   color: #333333;
 `;
@@ -15,8 +15,10 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h2`
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 24px;
-
+  width: 200px;
   font-size: 32px;
 `;
 
@@ -30,6 +32,7 @@ const Gallery = styled.div`
 `;
 
 export const Cases = function () {
+  console.log(pictures);
   return (
     <Section>
       <Container>
@@ -41,11 +44,21 @@ export const Cases = function () {
             sapiente!
           </Text>
           <Gallery>
-            <img src={images.image1} alt="pisture" />
+            {pictures.map((picture, idx) => (
+              <picture key={idx}>
+                <source
+                  srcset={`${picture.imageW} 1x, ${picture.imageW2x} 2x`}
+                  type="image/webp"
+                />
+                <source
+                  srcset={`${picture.image} 1x, ${picture.image2x} 2x `}
+                  type="image/jpeg"
+                />
+                <img src={picture.image} alt={picture.alt} />{" "}
+              </picture>
+            ))}
           </Gallery>
-          <Gallery>
-            <img src={image1} alt="pisture" />
-          </Gallery>
+          <Gallery></Gallery>
         </Wrapper>
       </Container>
     </Section>

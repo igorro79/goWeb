@@ -32,7 +32,6 @@ const Banner = styled.div`
 const TextWrapper = styled.div`
   padding: 79px 20px;
   @media screen and (max-width: 767px) {
-    border: 1px solid rgba(0, 0, 0, 0.2);
     width: 100%;
   }
   width: 50%;

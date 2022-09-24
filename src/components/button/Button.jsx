@@ -38,7 +38,5 @@ const StyledButton = styled.button`
   }`}
 `;
 export const Button = function ({ children, ...rest }) {
-  console.log(rest);
-
   return <StyledButton {...rest}>{children}</StyledButton>;
 };
