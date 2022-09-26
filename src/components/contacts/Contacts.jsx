@@ -1,12 +1,17 @@
 import styled from "styled-components";
+import { useInView } from "react-intersection-observer";
+
 import { Container } from "../container/Container";
-import { Button } from "../button/Button";
-import { picture } from "../../assets/contacts";
+import { Form } from "../form/Form";
+import bg from "../../assets2/home/contact.jpg";
+import bg2 from "../../assets2/home/contact@2x.jpg";
+import bgW from "../../assets2/home/contact.webp";
+import bgW2 from "../../assets2/home/contact@2x.webp";
 
 const Section = styled.section`
   width: 100%;
-  background-color: #fff;
-  //   text-align: center;
+  background-color: #f4f4f4;
+
   color: #333;
 `;
 const Wrapper = styled.div`
@@ -14,23 +19,30 @@ const Wrapper = styled.div`
   @media screen and (max-width: 767px) {
     flex-direction: column;
   }
+  @media screen and (min-width: 768px) and (max-width: 1359px) {
+    margin-bottom: 40px;
+  }
+  width: 100%;
+`;
+const Thumb = styled.div`
   width: 100%;
 
-  background-repeat: no-repeat;
+  @media screen and (min-width: 768px) {
+    width: 50%;
+    height: 354px;
+  }
+  @media screen and (min-width: 1360px) {
+    width: 670px;
+    height: 454px;
+  }
 `;
-
-// const Banner = styled.div`
-//   @media screen and (max-width: 767px) {
-//     width: 100%;
-//   }
-//   width: 50%;
-//   height: 220px;
-//   background-image: url(${picture});
-//   background-repeat: no-repeat;
-// `;
-
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
 const TextWrapper = styled.div`
-  padding: 51px 20px 25px;
+  padding: 51px 20px 0px;
   @media screen and (max-width: 767px) {
     width: 100%;
   }
@@ -38,40 +50,29 @@ const TextWrapper = styled.div`
 `;
 
 const Title = styled.h2`
-  margin-bottom: 24px;
+  margin-bottom: 69px;
   font-size: 32px;
 `;
 
-const Text = styled.p`
-  margin-bottom: ${(props) => props.mb || "16px"};
-`;
 export const Contacts = function () {
+  const { ref, inView, entry } = useInView({ threshold: 1 });
+  const isVisible = inView && entry.isIntersecting;
+  console.log(isVisible);
+  console.log([entry]);
   return (
-    <Section>
+    <Section ref={ref} id="contacts">
       <Container>
         <Wrapper>
-          <picture>
-            <source
-              srcset={`${picture.imageW} 1x, ${picture.imageW2x} 2x`}
-              type="image/webp"
-            />
-            <source
-              srcset={`${picture.image} 1x, ${picture.image2x} 2x `}
-              type="image/jpeg"
-            />
-            <img src={picture.image} alt={picture.alt} />{" "}
-          </picture>
+          <Thumb>
+            <picture>
+              <source srcSet={`${bgW} 1x, ${bgW2} 2x`} type="image/webp" />
+              <source srcSet={`${bg} 1x, ${bg2} 2x `} type="image/jpeg" />
+              <Img src={bg} alt="coworker" />
+            </picture>
+          </Thumb>
           <TextWrapper>
             <Title>Request Callback</Title>
-            <Text mb="24px">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Voluptate, ipsum dignissimos quae laudantium asperiores nam
-              aliquid impedit harum illum dolore explicabo ab dolores itaque
-              rerum temporibus doloribus iste maiores deleniti?
-            </Text>
-            <Button color noMargin>
-              Read Our Blog
-            </Button>
+            <Form />
           </TextWrapper>
         </Wrapper>
       </Container>

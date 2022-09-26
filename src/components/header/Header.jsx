@@ -1,28 +1,44 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { useInView } from "react-intersection-observer";
+import useWindowResize from "../../hooks/useWindowResize";
 // import background from "../../assets/hero/city1.jpg";
-import logo from "../../assets/logo.svg";
+import logo from "../../assets2/icons/logo.svg";
 import { Container } from "../container/Container";
 
+const StyledHeader = styled.header`
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  background-color: ${(props) =>
+    props.visible ? "rgba(0, 0, 0, 0.8)" : "transparent"};
+  transition: background-color 0.4s;
+`;
 const Wrapper = styled.div`
-  position: absolute;
-  transform: translateX(-50%);
-  left: 50%;
-  width: 320px;
-  padding: 22px;
-  background-color: transparent;
   display: flex;
-  @media screen and (max-width: 767px) {
-    flex-direction: column;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 22px;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  @media screen and (min-width: 1360px) {
+    width: 1360px;
   }
 `;
 
 const LogoText = styled.p`
   display: flex;
-  aling-items: center;
+  align-items: center;
   color: #28a745;
   font-size: 35px;
   transition: all 0.5s;
+  user-select: none;
 
   &::before {
     content: "";
@@ -35,6 +51,7 @@ const LogoText = styled.p`
   }
 
   &:hover {
+    color: #2ebf4f;
     transform: scale(1.03);
   }
   @media screen and (max-width: 767px) {
@@ -47,67 +64,107 @@ const LogoTextStyled = styled.span`
 `;
 
 const NavigationList = styled.ul`
+  height: 100%;
+  width: 100%;
   color: #fff;
-
   display: flex;
-  justify-content: space-between;
+
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (min-width: 768px) {
+    justify-content: space-between;
+  }
 `;
 const NavigationItem = styled.li`
-  position: relative;
-  overflow: hidden;
-
-  &:hover {
-    &::after {
-      visibility: visible;
-      transform: translateX(100%);
+  padding-bottom: 2px;
+  &:not(:first-child) {
+    margin-left: 12px;
+  }
+  @media screen and (min-width: 768px) {
+    &:not(:first-child) {
+      margin-left: 20px;
     }
   }
-  &::after {
+  @media screen and (min-width: 1360px) {
+    &:not(:first-child) {
+      margin-left: 40px;
+    }
+  }
+`;
+const Button = styled.button`
+  position: relative;
+  font-size: 16px;
+  cursor: pointer;
+  color: #fff;
+  padding: 0;
+  border: none;
+
+  &::before {
+    z-index: 14;
     content: "";
     position: absolute;
     width: 100%;
     height: 2px;
     background-color: #28a745;
-    left: -100%;
+    left: 0;
     bottom: 0;
+    transform: scale(0, 1);
+    transform-origin: 0 100%;
+
     transition: transform 0.5s;
-    visibility: hidden;
+  }
+  &:hover {
+    &::before {
+      transform: scale(1, 1);
+    }
   }
 `;
 
-const config = [
-  { url: "/#", name: "Home" },
-  { url: "/#", name: "About" },
-  { url: "/#", name: "Cases" },
-  { url: "/#", name: "Blog" },
-  { url: "/#", name: "Contact" },
-];
+const navLinks = ["Home", "About", "Cases", "Blog", "Contacts"];
 
 export const Header = function () {
   const [visible, setVisible] = useState(false);
+  const windowWidth = useWindowResize();
+  const { ref, inView, entry } = useInView({
+    /* Optional options */
+    threshold: 0.1,
+  });
 
   const toggleVisible = () => {
     const scrolled = document.documentElement.scrollTop;
-    if (scrolled > 120) {
+    if (windowWidth < 768 ? scrolled > 120 : scrolled > 70) {
       setVisible(true);
-    } else if (scrolled <= 120) {
+    } else if (windowWidth < 768 ? scrolled <= 120 : scrolled <= 70) {
       setVisible(false);
     }
   };
 
-  window.addEventListener("scroll", toggleVisible);
+  const handleNavClick = (e, item) => {
+    const navId = item.toLowerCase();
+    document.getElementById(navId).scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
+  };
 
+  window.addEventListener("scroll", toggleVisible);
+  // console.log(entry);
   return (
-    <header>
+    <StyledHeader visible={visible}>
       <Container>
-        <Wrapper visible={visible}>
+        <Wrapper>
           <LogoText>
             Finance <LogoTextStyled>Ledger</LogoTextStyled>
           </LogoText>
           <nav>
             <NavigationList>
-              {config.map((item) => (
-                <NavigationItem key={item.name}>
+              {navLinks.map((item) => (
+                <NavigationItem key={item}>
+                  <Button onClick={(e) => handleNavClick(e, item)}>
+                    {item}
+                  </Button>
                   <a href={item.url}>{item.name}</a>
                 </NavigationItem>
               ))}
@@ -115,6 +172,6 @@ export const Header = function () {
           </nav>
         </Wrapper>
       </Container>
-    </header>
+    </StyledHeader>
   );
 };

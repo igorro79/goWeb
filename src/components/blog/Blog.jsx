@@ -1,12 +1,17 @@
 import styled from "styled-components";
+import { useInView } from "react-intersection-observer";
+
 import { Container } from "../container/Container";
 import { Button } from "../button/Button";
-import mobile from "../../assets/blog/mobile.jpg";
+import bg from "../../assets2/home/blog.jpg";
+import bg2 from "../../assets2/home/blog@2x.jpg";
+import bgW from "../../assets2/home/blog.webp";
+import bgW2 from "../../assets2/home/blog@2x.webp";
+import { useEffect } from "react";
 
 const Section = styled.section`
   width: 100%;
   background-color: #0284d0;
-  //   text-align: center;
   color: #fff;
 `;
 const Wrapper = styled.div`
@@ -15,43 +20,70 @@ const Wrapper = styled.div`
     flex-direction: column;
   }
   width: 100%;
-
   background-repeat: no-repeat;
 `;
 
 const Banner = styled.div`
+  height: 493px;
+  width: 50%;
   @media screen and (max-width: 767px) {
     width: 100%;
+    height: 220px;
   }
-  width: 50%;
-  height: 220px;
-  background-image: url(${mobile});
-  background-repeat: no-repeat;
+  @media screen and (min-width: 1360px) {
+    width: 680px;
+    height: 460px;
+  }
 `;
+const Img = styled.img`
+  width: 100%;
 
+  height: 100%;
+  object-fit: cover;
+`;
 const TextWrapper = styled.div`
   padding: 48px 20px 58px;
   @media screen and (max-width: 767px) {
     width: 100%;
+  }
+  @media screen and (min-width: 768px) {
+    // width: 100%;
+    padding: 59px 32px;
+  }
+
+  @media screen and (min-width: 1360px) {
+    padding: 80px 30px 80px 20px;
   }
   width: 50%;
 `;
 
 const Title = styled.h2`
   margin-bottom: 24px;
-
   font-size: 32px;
+  @media screen and (min-width: 768px) {
+    font-size: 40px;
+    line-height: 54px;
+  }
 `;
 
 const Text = styled.p`
   margin-bottom: ${(props) => props.mb || "16px"};
+  @media screen and (min-width: 768px) {
+    font-size: 18px;
+
+    line-height: 25px;
+  }
 `;
 export const Blog = function () {
+  const { ref, inView, entry } = useInView({ threshold: 1 });
+  const isVisible = inView && entry.isIntersecting;
+
+  useEffect(() => {}, [isVisible]);
+
   return (
-    <Section>
+    <Section ref={ref} id="blog">
       <Container>
         <Wrapper>
-          <Banner />{" "}
           <TextWrapper>
             <Text>April 16 2020</Text>
             <Title>Blog Post One</Title>
@@ -61,10 +93,17 @@ export const Blog = function () {
               aliquid impedit harum illum dolore explicabo ab dolores itaque
               rerum temporibus doloribus iste maiores deleniti?
             </Text>
-            <Button color noMargin>
+            <Button color="true" noMargin>
               Read Our Blog
             </Button>
-          </TextWrapper>
+          </TextWrapper>{" "}
+          <Banner>
+            <picture>
+              <source srcSet={`${bgW} 1x, ${bgW2} 2x`} type="image/webp" />
+              <source srcSet={`${bg} 1x, ${bg2} 2x `} type="image/jpeg" />
+              <Img src={bg} alt="notebook" />
+            </picture>
+          </Banner>
         </Wrapper>
       </Container>
     </Section>

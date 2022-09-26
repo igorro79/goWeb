@@ -1,9 +1,11 @@
 // import { useState } from "react";
 import styled from "styled-components";
-import arrow from "../../assets/arrow.svg";
+import arrow from "../../assets2/icons/arrow.svg";
 
 const StyledButton = styled.button`
   display: flex;
+  justify-content: center;
+  min-width: 155px;
   margin-left: ${(props) => (props.noMargin ? 0 : "auto")};
   margin-right: ${(props) => (props.noMargin ? 0 : "auto")};
   align-items: center;

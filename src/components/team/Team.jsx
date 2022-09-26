@@ -1,6 +1,9 @@
 import styled from "styled-components";
+import { useInView } from "react-intersection-observer";
+
 import { Container } from "../container/Container";
-import { pictures } from "../../assets/team";
+import { pictures } from "../../assets2/team";
+import { TeammateCard } from "../teammateCard/teammateCard";
 
 const Section = styled.section`
   width: 100%;
@@ -11,13 +14,19 @@ const Section = styled.section`
 const Wrapper = styled.div`
   width: 100%;
   padding: 56px 20px 40px;
+  @media screen and (min-width: 768px) {
+    padding: 80px 28px 88px;
+  }
 `;
 
 const Title = styled.h2`
+  @media screen and (max-width: 767px) {
+    width: 200px;
+  }
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 24px;
-  width: 200px;
+
   font-size: 32px;
 `;
 
@@ -28,22 +37,26 @@ const Gallery = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 30px;
+  justify-content: center;
+  @media screen and (min-width: 768px) {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 18px;
+  }
+  @media screen and (min-width: 1360px) {
+    grid-template-columns: 420px 420px 420px;
+
+    grid-gap: 20px;
+  }
 `;
-const Card = styled.div`
-  width: 100%;
-  text-align: center;
-`;
-const Name = styled.p`
-  margin-top: 16px;
-  margin-bottom: 8px;
-  font-size: 20px;
-`;
-const Position = styled.p``;
 
 export const Team = function () {
-  console.log(pictures);
+  // const teamRef = useNav("Team");
+  const { ref, inView, entry } = useInView({ threshold: 1 });
+  const isVisible = inView && entry.isIntersecting;
+  console.log(isVisible);
+
   return (
-    <Section>
+    <Section ref={ref} id="team">
       <Container>
         <Wrapper>
           <Text>Who we are</Text>
@@ -53,51 +66,21 @@ export const Team = function () {
             sapiente!
           </Text>
           <Gallery>
-            <Card>
-              <picture>
-                <source
-                  srcset={`${pictures[0].imageW} 1x, ${pictures[0].imageW2x} 2x`}
-                  type="image/webp"
-                />
-                <source
-                  srcset={`${pictures[0].image} 1x, ${pictures[0].image2x} 2x `}
-                  type="image/jpeg"
-                />
-                <img src={pictures[0].image} alt={pictures[0].alt} />{" "}
-              </picture>
-              <Name>John Doe</Name>
-              <Position>President</Position>
-            </Card>
-            <Card>
-              <picture>
-                <source
-                  srcset={`${pictures[1].imageW} 1x, ${pictures[1].imageW2x} 2x`}
-                  type="image/webp"
-                />
-                <source
-                  srcset={`${pictures[1].image} 1x, ${pictures[1].image2x} 2x `}
-                  type="image/jpeg"
-                />
-                <img src={pictures[1].image} alt={pictures[1].alt} />{" "}
-              </picture>
-              <Name>Jane Doe</Name>
-              <Position>Vice President</Position>
-            </Card>
-            <Card>
-              <picture>
-                <source
-                  srcset={`${pictures[2].imageW} 1x, ${pictures[2].imageW2x} 2x`}
-                  type="image/webp"
-                />
-                <source
-                  srcset={`${pictures[2].image} 1x, ${pictures[2].image2x} 2x `}
-                  type="image/jpeg"
-                />
-                <img src={pictures[2].image} alt={pictures[2].alt} />{" "}
-              </picture>
-              <Name>Steve Smith</Name>
-              <Position>Marketing Head</Position>
-            </Card>
+            <TeammateCard
+              picture={pictures[0]}
+              name="John Doe"
+              position="President"
+            />
+            <TeammateCard
+              picture={pictures[1]}
+              name="Jane Doe"
+              position="Vice President"
+            />
+            <TeammateCard
+              picture={pictures[2]}
+              name="Steve Smith"
+              position="Marketing Head"
+            />
           </Gallery>
           <Gallery></Gallery>
         </Wrapper>

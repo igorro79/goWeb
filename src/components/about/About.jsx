@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import { Container } from "../container/Container";
 import { Button } from "../button/Button";
-import bgImage from "../../assets/about/people1x.jpg";
+import { useInView } from "react-intersection-observer";
+
+import bg from "../../assets2/home/people.jpg";
+import bg2 from "../../assets2/home/people@2x.jpg";
+import bgW from "../../assets2/home/people.webp";
+import bgW2 from "../../assets2/home/people@2x.webp";
 
 const Section = styled.section`
   width: 100%;
   background-image: linear-gradient(#28a745, #28a745);
-  //   text-align: center;
   color: #fff;
 `;
 const Wrapper = styled.div`
@@ -20,38 +24,71 @@ const Wrapper = styled.div`
 `;
 
 const Banner = styled.div`
-  @media screen and (max-width: 767px) {
-    width: 100%;
-  }
+  height: 590px;
   width: 50%;
-  height: 220px;
-  background-image: url(${bgImage});
-  background-repeat: no-repeat;
-`;
-
-const TextWrapper = styled.div`
-  padding: 79px 20px;
   @media screen and (max-width: 767px) {
     width: 100%;
+    height: 220px;
+  }
+  @media screen and (min-width: 1360px) {
+    width: 680px;
+    height: 460px;
+  }
+`;
+const Img = styled.img`
+  width: 100%;
+
+  height: 100%;
+  object-fit: cover;
+`;
+const TextWrapper = styled.div`
+  padding: 62px 32px;
+  font-size: 18px;
+
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    padding: 79px 20px;
+  }
+
+  @media screen and (min-width: 1360px) {
+    padding: 80px 30px 80px 20px;
   }
   width: 50%;
 `;
 
 const Title = styled.h2`
   margin-bottom: 24px;
-
   font-size: 32px;
+  line-height: 44px;
+  @media screen and (min-width: 768px) {
+    font-size: 40px;
+    line-height: 48px;
+  }
 `;
 
 const Text = styled.p`
+  line-height: 22px;
+  @media screen and (min-width: 768px) {
+    line-height: 25px;
+  }
+
   margin-bottom: ${(props) => props.mb || "16px"};
 `;
 export const About = function () {
+  const { ref, inView, entry } = useInView({ threshold: 1 });
+  const isVisible = inView && entry.isIntersecting;
+  console.log(isVisible);
   return (
-    <Section>
+    <Section ref={ref} id="about">
       <Container>
         <Wrapper>
-          <Banner />{" "}
+          <Banner>
+            <picture>
+              <source srcSet={`${bgW} 1x, ${bgW2} 2x`} type="image/webp" />
+              <source srcSet={`${bg} 1x, ${bg2} 2x `} type="image/jpeg" />
+              <Img src={bg} alt="people" />
+            </picture>
+          </Banner>
           <TextWrapper>
             <Text>What you are looking for</Text>
             <Title>We provide bespoke solutions</Title>
@@ -61,7 +98,7 @@ export const About = function () {
               aliquid impedit harum illum dolore explicabo ab dolores itaque
               rerum temporibus doloribus iste maiores deleniti?
             </Text>
-            <Button>Read More</Button>
+            <Button noMargin>Read More</Button>
           </TextWrapper>
         </Wrapper>
       </Container>
