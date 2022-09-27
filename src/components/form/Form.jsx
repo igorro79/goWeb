@@ -58,20 +58,12 @@ export function Form() {
     resolver: yupResolver(schema),
   });
 
-  // const onSubmit = (data) => {
-  //   alert(
-  //     `Dear ${data.name} Thanks for registration! Please check your email: ${data.email}`
-  //   );
-  //   reset();
-  // };
-
   return (
     <StyledForm
-      data-netlify="true"
-      netlify-honeypot="bot-field"
+      netlify
       method="post"
       name="contacts"
-      onSubmit={handleSubmit("submit")}
+      onSubmit={handleSubmit(() => "submit")}
     >
       <input type="hidden" name="form-name" value="contacts" />
       <InputWrapper>
