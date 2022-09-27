@@ -1,10 +1,10 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { useInView } from "react-intersection-observer";
 import useWindowResize from "../../hooks/useWindowResize";
-// import background from "../../assets/hero/city1.jpg";
-import logo from "../../assets2/icons/logo.svg";
+
 import { Container } from "../container/Container";
+
+import logo from "../../assets2/icons/logo.svg";
 
 const StyledHeader = styled.header`
   position: fixed;
@@ -111,10 +111,11 @@ const Button = styled.button`
     bottom: 0;
     transform: scale(0, 1);
     transform-origin: 0 100%;
-
     transition: transform 0.5s;
   }
-  &:hover {
+
+  &:hover,
+  &.active {
     &::before {
       transform: scale(1, 1);
     }
@@ -123,13 +124,9 @@ const Button = styled.button`
 
 const navLinks = ["Home", "About", "Cases", "Blog", "Contacts"];
 
-export const Header = function () {
+export const Header = function ({ visibleSection }) {
   const [visible, setVisible] = useState(false);
   const windowWidth = useWindowResize();
-  const { ref, inView, entry } = useInView({
-    /* Optional options */
-    threshold: 0.1,
-  });
 
   const toggleVisible = () => {
     const scrolled = document.documentElement.scrollTop;
@@ -150,7 +147,7 @@ export const Header = function () {
   };
 
   window.addEventListener("scroll", toggleVisible);
-  // console.log(entry);
+
   return (
     <StyledHeader visible={visible}>
       <Container>
@@ -162,7 +159,14 @@ export const Header = function () {
             <NavigationList>
               {navLinks.map((item) => (
                 <NavigationItem key={item}>
-                  <Button onClick={(e) => handleNavClick(e, item)}>
+                  <Button
+                    className={
+                      visibleSection === item.toLocaleLowerCase()
+                        ? "active"
+                        : null
+                    }
+                    onClick={(e) => handleNavClick(e, item)}
+                  >
                     {item}
                   </Button>
                   <a href={item.url}>{item.name}</a>

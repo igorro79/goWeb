@@ -8,11 +8,8 @@ const Card = styled.div`
 `;
 const Thumb = styled.div`
   min-width: 280px;
-  // height: 186px;
   position: relative;
   @media screen and (min-width: 768px) {
-    // width: 223px;
-    // height: 148px;
   }
   @media screen and (min-width: 1360px) {
     width: 420px;
@@ -69,7 +66,7 @@ export function TeammateCard({ picture, name, position }) {
             srcSet={`${picture.image} 1x, ${picture.image2x} 2x `}
             type="image/jpeg"
           />
-          <Img src={picture.image} alt={picture.alt} />{" "}
+          <Img src={picture.image} alt={picture.alt} />
         </picture>
       </Thumb>
       <Name>{name}</Name>

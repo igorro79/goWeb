@@ -83,7 +83,7 @@ export function Form() {
         {errors.email && <Error>{errors.email?.message}</Error>}
       </InputWrapper>
 
-      <Button type="submit" primary noMargin>
+      <Button type="submit" primary noMargin aria-label="Submit form">
         Send
       </Button>
     </StyledForm>

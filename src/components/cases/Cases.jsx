@@ -12,6 +12,7 @@ const Section = styled.section`
   text-align: center;
   color: #333333;
 `;
+
 const Wrapper = styled.div`
   width: 100%;
   padding: 56px 20px 40px;
@@ -37,6 +38,7 @@ const Title = styled.h2`
 const Text = styled.p`
   margin-bottom: ${(props) => props.mb || "16px"};
 `;
+
 const Gallery = styled.div`
   display: grid;
   grid-template-columns: 280px;
@@ -50,6 +52,7 @@ const Gallery = styled.div`
     grid-gap: 24px 20px;
   }
 `;
+
 const Img = styled.img`
   cursor: pointer;
   width: 100%;
@@ -58,8 +61,13 @@ const Img = styled.img`
   }
 `;
 
-export const Cases = function () {
-  const { ref } = useInView({ threshold: 0.1 });
+export const Cases = function ({ onChange }) {
+  const { ref, inView, entry } = useInView({ threshold: 0.4 });
+  const isVisible = inView && entry.isIntersecting;
+
+  useEffect(() => {
+    if (isVisible) onChange(entry.target.id);
+  }, [isVisible, onChange]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [startImage, setStartImage] = useState(0);

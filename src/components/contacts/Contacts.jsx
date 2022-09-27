@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import { useInView } from "react-intersection-observer";
 
@@ -14,6 +15,7 @@ const Section = styled.section`
 
   color: #333;
 `;
+
 const Wrapper = styled.div`
   display: flex;
   @media screen and (max-width: 767px) {
@@ -24,6 +26,7 @@ const Wrapper = styled.div`
   }
   width: 100%;
 `;
+
 const Thumb = styled.div`
   width: 100%;
 
@@ -36,11 +39,13 @@ const Thumb = styled.div`
     height: 454px;
   }
 `;
+
 const Img = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
 `;
+
 const TextWrapper = styled.div`
   padding: 51px 20px 0px;
   @media screen and (max-width: 767px) {
@@ -54,11 +59,16 @@ const Title = styled.h2`
   font-size: 32px;
 `;
 
-export const Contacts = function () {
-  const { ref, inView, entry } = useInView({ threshold: 1 });
+export const Contacts = function ({ onChange }) {
+  const { ref, inView, entry } = useInView({
+    threshold: 0.8,
+  });
   const isVisible = inView && entry.isIntersecting;
-  console.log(isVisible);
-  console.log([entry]);
+
+  useEffect(() => {
+    if (isVisible) onChange(entry.target.id);
+  }, [isVisible, onChange]);
+
   return (
     <Section ref={ref} id="contacts">
       <Container>

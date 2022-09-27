@@ -22,22 +22,38 @@ const StyledLink = styled.a`
 export const Social = function (props) {
   return (
     <IconWrapper>
-      <StyledLink {...props} href="http://twitter.com">
+      <StyledLink
+        {...props}
+        href="http://twitter.com"
+        aria-label="Visit our twitter page"
+      >
         <svg width="35px" height="36px" alt="twitter icon">
           <use href={sprite + "#twitter"}></use>
         </svg>
       </StyledLink>
-      <StyledLink {...props} href="http://facebook.com">
+      <StyledLink
+        {...props}
+        href="http://facebook.com"
+        aria-label="Visit our facebook page"
+      >
         <svg width="35px" height="35px" alt="facebook icon">
           <use href={sprite + "#facebook"}></use>
         </svg>
       </StyledLink>
-      <StyledLink {...props} href="http://youtube.com">
+      <StyledLink
+        {...props}
+        href="http://youtube.com"
+        aria-label="Visit our youtube"
+      >
         <svg width="40px" height="35px" alt="facebook icon">
           <use href={sprite + "#youtube"}></use>
         </svg>
       </StyledLink>
-      <StyledLink {...props} href="http://linkedin.com">
+      <StyledLink
+        {...props}
+        href="http://linkedin.com"
+        aria-label="Visit our linkedin page"
+      >
         <svg width="35px" height="35px" alt="facebook icon">
           <use href={sprite + "#linkedin"}></use>
         </svg>

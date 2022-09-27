@@ -74,11 +74,13 @@ const Text = styled.p`
     line-height: 25px;
   }
 `;
-export const Blog = function () {
-  const { ref, inView, entry } = useInView({ threshold: 1 });
+export const Blog = function ({ onChange }) {
+  const { ref, inView, entry } = useInView({ threshold: 0.8 });
   const isVisible = inView && entry.isIntersecting;
 
-  useEffect(() => {}, [isVisible]);
+  useEffect(() => {
+    if (isVisible) onChange(entry.target.id);
+  }, [isVisible, onChange]);
 
   return (
     <Section ref={ref} id="blog">
@@ -93,7 +95,12 @@ export const Blog = function () {
               aliquid impedit harum illum dolore explicabo ab dolores itaque
               rerum temporibus doloribus iste maiores deleniti?
             </Text>
-            <Button color="true" noMargin>
+            <Button
+              color="true"
+              noMargin
+              aria-label="Read our blog"
+              type="button"
+            >
               Read Our Blog
             </Button>
           </TextWrapper>{" "}

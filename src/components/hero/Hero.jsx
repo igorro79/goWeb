@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import { Container } from "../container/Container";
 import { Button } from "../button/Button";
@@ -49,8 +50,15 @@ const Text = styled.p`
   font-size: 26px;
   line-height: 32px;
 `;
-export const Hero = function () {
-  const { ref } = useInView({ threshold: 0.1 });
+export const Hero = function ({ onChange }) {
+  const { ref, inView, entry } = useInView({
+    threshold: 0.7,
+  });
+  const isVisible = inView && entry.isIntersecting;
+
+  useEffect(() => {
+    if (isVisible) onChange(entry.target.id);
+  }, [isVisible, onChange]);
 
   return (
     <Section ref={ref} id="home">
@@ -58,7 +66,12 @@ export const Hero = function () {
         <Wrapper>
           <Title>The Sky Is The Limit</Title>
           <Text>We provide world class financial assistance</Text>
-          <Button primary arrow>
+          <Button
+            primary
+            arrow
+            aria-label="Read more about company"
+            type="button"
+          >
             Read More
           </Button>
         </Wrapper>

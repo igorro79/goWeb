@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useInView } from "react-intersection-observer";
+// import { useInView } from "react-intersection-observer";
 
 import { Container } from "../container/Container";
 import { pictures } from "../../assets2/team";
@@ -50,13 +50,8 @@ const Gallery = styled.div`
 `;
 
 export const Team = function () {
-  // const teamRef = useNav("Team");
-  const { ref, inView, entry } = useInView({ threshold: 1 });
-  const isVisible = inView && entry.isIntersecting;
-  console.log(isVisible);
-
   return (
-    <Section ref={ref} id="team">
+    <Section id="team">
       <Container>
         <Wrapper>
           <Text>Who we are</Text>

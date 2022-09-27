@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styled from "styled-components";
 import ImageGallery from "react-image-gallery";
@@ -17,8 +17,8 @@ const Overlay = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  // align-items: center;
 
+  padding: 30px;
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.8);
@@ -39,11 +39,14 @@ const NavButton = styled.button`
   }
 `;
 const RightNav = styled(NavButton)`
+  display: ${(props) => (props.isVisible ? null : "none")};
+
   right: 0;
   background-position: right center;
   background-image: url(${arrowNext});
 `;
 const LeftNav = styled(NavButton)`
+  display: ${(props) => (props.isVisible ? null : "none")};
   left: 0;
   background-position: left center;
   background-image: url(${arrowPrev});
@@ -59,7 +62,11 @@ const CloseButton = styled.button`
   }
 `;
 
-const Modal = ({ pictures, isOpen, onClose, startIndex, children }) => {
+const Modal = ({ pictures, isOpen, onClose, startIndex }) => {
+  const refImg = useRef(0);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(startIndex);
+  const onSlide = () => setCurrentSlideIndex(refImg.current.getCurrentIndex());
+
   const handleOverlayClick = (e) => {
     if (e.currentTarget === e.target) {
       onClose();
@@ -77,10 +84,10 @@ const Modal = ({ pictures, isOpen, onClose, startIndex, children }) => {
       window.removeEventListener("keydown", handleKeydown);
     };
   }, [isOpen, onClose]);
-
   return createPortal(
     <Overlay onClick={handleOverlayClick}>
       <ImageGallery
+        ref={refImg}
         loading={loader}
         items={pictures}
         startIndex={startIndex}
@@ -88,15 +95,32 @@ const Modal = ({ pictures, isOpen, onClose, startIndex, children }) => {
         showFullscreenButton={false}
         showPlayButton={false}
         lazyload={true}
+        onSlide={onSlide}
         renderRightNav={(onClick, disabled) => (
-          <RightNav onClick={onClick} disabled={disabled} />
+          <RightNav
+            isVisible={currentSlideIndex < pictures.length - 1}
+            onClick={onClick}
+            disabled={disabled}
+            aria-label="Next picture"
+            type="button"
+          />
         )}
         renderLeftNav={(onClick, disabled) => (
-          <LeftNav onClick={onClick} disabled={disabled} />
+          <LeftNav
+            isVisible={currentSlideIndex > 0}
+            onClick={onClick}
+            disabled={disabled}
+            aria-label="Previous picture"
+            type="button"
+          />
         )}
       />
-      <CloseButton aria-label="Close modal window" onClick={onClose}>
-        <img src={closeIcon} alt="Close button" />
+      <CloseButton
+        aria-label="Close modal window"
+        type="button"
+        onClick={onClose}
+      >
+        <img src={closeIcon} alt="Close button icon" />
       </CloseButton>
     </Overlay>,
     modalRoot

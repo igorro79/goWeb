@@ -1,4 +1,5 @@
-// import styled from "styled-components";
+import { useState } from "react";
+
 import { Header } from "./components/header/Header";
 import { Hero } from "./components/hero/Hero";
 import { About } from "./components/about/About";
@@ -9,16 +10,21 @@ import { Contacts } from "./components/contacts/Contacts";
 import { Footer } from "./components/footer/Footer";
 
 function App() {
+  const [visibleSection, setVisibleSection] = useState(null);
+
+  const handleVisibleSectionChande = (sectionName) =>
+    setVisibleSection(sectionName);
+
   return (
     <>
-      <Header />
+      <Header visibleSection={visibleSection} />
       <main>
-        <Hero />
-        <About />
-        <Cases />
-        <Blog />
+        <Hero onChange={handleVisibleSectionChande} />
+        <About onChange={handleVisibleSectionChande} />
+        <Cases onChange={handleVisibleSectionChande} />
+        <Blog onChange={handleVisibleSectionChande} />
         <Team />
-        <Contacts />
+        <Contacts onChange={handleVisibleSectionChande} />
       </main>
       <Footer />
     </>

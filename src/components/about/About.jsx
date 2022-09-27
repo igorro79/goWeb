@@ -7,6 +7,7 @@ import bg from "../../assets2/home/people.jpg";
 import bg2 from "../../assets2/home/people@2x.jpg";
 import bgW from "../../assets2/home/people.webp";
 import bgW2 from "../../assets2/home/people@2x.webp";
+import { useEffect } from "react";
 
 const Section = styled.section`
   width: 100%;
@@ -74,10 +75,14 @@ const Text = styled.p`
 
   margin-bottom: ${(props) => props.mb || "16px"};
 `;
-export const About = function () {
-  const { ref, inView, entry } = useInView({ threshold: 1 });
+export const About = function ({ onChange }) {
+  const { ref, inView, entry } = useInView({ threshold: 0.8 });
   const isVisible = inView && entry.isIntersecting;
-  console.log(isVisible);
+
+  useEffect(() => {
+    if (isVisible) onChange(entry.target.id);
+  }, [isVisible, onChange]);
+
   return (
     <Section ref={ref} id="about">
       <Container>
@@ -98,7 +103,9 @@ export const About = function () {
               aliquid impedit harum illum dolore explicabo ab dolores itaque
               rerum temporibus doloribus iste maiores deleniti?
             </Text>
-            <Button noMargin>Read More</Button>
+            <Button type="button" noMargin aria-label="Read more about">
+              Read More
+            </Button>
           </TextWrapper>
         </Wrapper>
       </Container>
