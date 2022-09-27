@@ -18,7 +18,8 @@ const StyledForm = styled.form`
   margin-bottom: 24px;
 `;
 
-const InputWrapper = styled.div`
+const InputWrapper = styled.label`
+  display: block;
   position: relative;
   &:not(:last-child) {
     margin-bottom: 16px;
@@ -65,7 +66,12 @@ export function Form() {
   };
   console.log();
   return (
-    <StyledForm data-netlify="true" onSubmit={handleSubmit(onSubmit)}>
+    <StyledForm
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      name="contact"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <InputWrapper>
         <Input
           placeholder="Enter your name"
