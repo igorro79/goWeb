@@ -51,27 +51,28 @@ const Error = styled.p`
 export function Form() {
   const {
     register,
-    handleSubmit,
-    reset,
+    // handleSubmit,
+    // reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    alert(
-      `Dear ${data.name} Thanks for registration! Please check your email: ${data.email}`
-    );
-    reset();
-  };
-  console.log();
+  // const onSubmit = (data) => {
+  //   alert(
+  //     `Dear ${data.name} Thanks for registration! Please check your email: ${data.email}`
+  //   );
+  //   reset();
+  // };
+
   return (
     <StyledForm
       data-netlify="true"
       netlify-honeypot="bot-field"
-      name="contact"
-      onSubmit={handleSubmit(onSubmit)}
+      name="contacts"
+      // onSubmit={handleSubmit(onSubmit)}
     >
+      <input type="hidden" name="form-name" value="contacts" />
       <InputWrapper>
         <Input
           placeholder="Enter your name"
