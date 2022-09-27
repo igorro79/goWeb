@@ -51,7 +51,7 @@ const Error = styled.p`
 export function Form() {
   const {
     register,
-    // handleSubmit,
+    handleSubmit,
     // reset,
     formState: { errors },
   } = useForm({
@@ -70,7 +70,7 @@ export function Form() {
       data-netlify="true"
       netlify-honeypot="bot-field"
       name="contacts"
-      // onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit()}
     >
       <input type="hidden" name="form-name" value="contacts" />
       <InputWrapper>
