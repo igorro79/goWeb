@@ -65,7 +65,7 @@ export function Form() {
   };
   console.log();
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledForm data-netlify="true" onSubmit={handleSubmit(onSubmit)}>
       <InputWrapper>
         <Input
           placeholder="Enter your name"
