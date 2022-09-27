@@ -69,8 +69,9 @@ export function Form() {
     <StyledForm
       data-netlify="true"
       netlify-honeypot="bot-field"
+      method="post"
       name="contacts"
-      onSubmit={handleSubmit()}
+      onSubmit={handleSubmit("submit")}
     >
       <input type="hidden" name="form-name" value="contacts" />
       <InputWrapper>
