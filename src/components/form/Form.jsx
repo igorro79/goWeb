@@ -63,7 +63,8 @@ export function Form() {
       netlify
       method="post"
       name="contacts"
-      onSubmit={handleSubmit(() => "submit")}
+      onSubmit="submit"
+      // onSubmit={handleSubmit(() => "submit")}
     >
       <input type="hidden" name="form-name" value="contacts" />
       <InputWrapper>
