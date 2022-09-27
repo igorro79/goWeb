@@ -67,6 +67,7 @@ export const Contacts = function ({ onChange }) {
 
   useEffect(() => {
     if (isVisible) onChange(entry.target.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible, onChange]);
 
   return (
