@@ -1,4 +1,5 @@
 import React from "react";
+
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -51,20 +52,38 @@ const Error = styled.p`
 export function Form() {
   const {
     register,
-    // handleSubmit,
-    // reset,
+    handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
+  const encode = (data) => {
+    return Object.keys(data)
+      .map(
+        (key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key])
+      )
+      .join("&");
+  };
+
+  const onSubmit = (values, actions) => {
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encode({ "form-name": "contacts", ...values }),
+    })
+      .then(() => alert(`We have received your credentials ${values.name}.`))
+      .catch((error) => alert(error))
+      .finally(reset());
+  };
+
   return (
     <StyledForm
-      netlify
-      method="post"
+      data-netlify="true"
+      method="POST"
       name="contacts"
-      onSubmit="submit"
-      // onSubmit={handleSubmit(() => "submit")}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <input type="hidden" name="form-name" value="contacts" />
       <InputWrapper>
@@ -72,16 +91,14 @@ export function Form() {
           placeholder="Enter your name"
           {...register("name", { required: true })}
         />
-        {errors.name && (
-          <Error errors={errors.length}>{errors.name?.message}</Error>
-        )}
+        {errors.name && <Error>This field is required</Error>}
       </InputWrapper>
       <InputWrapper>
         <Input
           placeholder="Enter your email*"
           {...register("email", { required: true })}
         />
-        {errors.email && <Error>{errors.email?.message}</Error>}
+        {errors.email && <Error>This field is required</Error>}
       </InputWrapper>
 
       <Button type="submit" primary noMargin aria-label="Submit form">
